@@ -1,18 +1,113 @@
 <template>
   <div class="header-menu">
-    <router-link v-for="(item, index) in HeaderMenuInfo" :key="index" :to="item.to">{{
-      item.title
-    }}</router-link>
+    <router-link
+      v-for="(item, index) in HeaderMenuInfo"
+      :key="index"
+      :to="item.to"
+      @click.native="selectRoute(index)"
+      @mouseover.native="hover(index)"
+      >{{ item.title }}</router-link
+    >
     <div class="link-bar"></div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['HeaderMenuInfo']),
+    ...mapGetters(['HeaderMenuInfo', 'HeaderMenuActiveIndex']),
+  },
+  methods: {
+    ...mapMutations(['setActiveHeaderButton']),
+    selectRoute(index) {
+      this.setActiveHeaderButton(index);
+    },
+    hover(hoverElementIndex) {
+      hoverElementIndex += 1;
+      let activeElementIndex = this.HeaderMenuActiveIndex + 1;
+      let linkBar = document.getElementsByClassName('link-bar')[0].style;
+
+      if (activeElementIndex == 1 || (activeElementIndex == 1 && hoverElementIndex == 1)) {
+        linkBar.setProperty('left', '668px', 'important');
+        linkBar.setProperty('width', '99px', 'important');
+      }
+
+      if (activeElementIndex == 2 || (activeElementIndex == 2 && hoverElementIndex == 2)) {
+        linkBar.setProperty('left', '819px', 'important');
+        linkBar.setProperty('width', '106px', 'important');
+      }
+
+      if (activeElementIndex == 3 || (activeElementIndex == 3 && hoverElementIndex == 3)) {
+        linkBar.setProperty('left', '977px', 'important');
+        linkBar.setProperty('width', '84px', 'important');
+      }
+
+      if (activeElementIndex == 4 || (activeElementIndex == 4 && hoverElementIndex == 4)) {
+        linkBar.setProperty('left', '1113px', 'important');
+        linkBar.setProperty('width', '134px', 'important');
+      }
+
+      if (
+        (activeElementIndex == 1 && hoverElementIndex == 2) ||
+        (activeElementIndex == 2 && hoverElementIndex == 1)
+      ) {
+        linkBar.setProperty('left', '668px', 'important');
+        linkBar.setProperty('width', '260px', 'important');
+      }
+
+      if (
+        (activeElementIndex == 1 && hoverElementIndex == 3) ||
+        (activeElementIndex == 3 && hoverElementIndex == 1)
+      ) {
+        linkBar.setProperty('left', '668px', 'important');
+        linkBar.setProperty('width', '398px', 'important');
+      }
+
+      if (
+        (activeElementIndex == 1 && hoverElementIndex == 4) ||
+        (activeElementIndex == 4 && hoverElementIndex == 1)
+      ) {
+        linkBar.setProperty('left', '668px', 'important');
+        linkBar.setProperty('width', '579px', 'important');
+      }
+
+      if (
+        (activeElementIndex == 2 && hoverElementIndex == 3) ||
+        (activeElementIndex == 3 && hoverElementIndex == 2)
+      ) {
+        linkBar.setProperty('left', '820px', 'important');
+        linkBar.setProperty('width', '240px', 'important');
+      }
+
+      if (
+        (activeElementIndex == 2 && hoverElementIndex == 4) ||
+        (activeElementIndex == 4 && hoverElementIndex == 2)
+      ) {
+        linkBar.setProperty('left', '820px', 'important');
+        linkBar.setProperty('width', '426px', 'important');
+      }
+
+      if (
+        (activeElementIndex == 3 && hoverElementIndex == 4) ||
+        (activeElementIndex == 4 && hoverElementIndex == 3)
+      ) {
+        linkBar.setProperty('left', '978px', 'important');
+        linkBar.setProperty('width', '268px', 'important');
+      }
+
+      if (
+        (activeElementIndex == 2 && hoverElementIndex == 1) ||
+        (activeElementIndex == 3 && hoverElementIndex == 1) ||
+        (activeElementIndex == 3 && hoverElementIndex == 2) ||
+        (activeElementIndex == 4 && hoverElementIndex == 1) ||
+        (activeElementIndex == 4 && hoverElementIndex == 2) ||
+        (activeElementIndex == 4 && hoverElementIndex == 3)
+      ) {
+        linkBar.setProperty('direction', 'rtl');
+      }
+    },
   },
 };
 </script>
@@ -27,7 +122,7 @@ export default {
   padding: 0;
 }
 
-.routes {
+a:nth-of-type(2) .routes {
   width: 100%;
   height: 19px;
   display: flex;
@@ -35,23 +130,13 @@ export default {
 
 .link-bar {
   position: absolute;
-  width: 0;
-  left: 0;
+  width: 99px;
+  left: 668px;
   height: 4px;
   margin-top: 19px;
   background-color: red;
   overflow: hidden;
-}
-
-.link-bar-left {
-  position: absolute;
-  width: 0;
-  right: 0;
-  height: 4px;
-  margin-top: 19px;
-  direction: rtl;
-  background-color: blue;
-  overflow: hidden;
+  transition: all 0.33s;
 }
 
 .header-menu a {
@@ -67,72 +152,6 @@ export default {
   text-transform: uppercase;
   color: #262525;
   padding: 0 0 0 4px;
-}
-
-/* подчеркиваем пункт меню */
-.header-menu a:nth-of-type(1)[class*='router-link-exact-active'] ~ .link-bar {
-  width: 99px !important;
-  left: 668px;
-  transition: all 0.33s;
-}
-
-.header-menu a:nth-of-type(2)[class*='router-link-exact-active'] ~ .link-bar {
-  width: 106px !important;
-  left: 819px;
-  transition: all 0.33s;
-}
-
-.header-menu a:nth-of-type(3)[class*='router-link-exact-active'] ~ .link-bar {
-  width: 84px !important;
-  left: 977px;
-  transition: all 0.33s;
-}
-
-.header-menu a:nth-of-type(4)[class*='router-link-exact-active'] ~ .link-bar {
-  width: 134px !important;
-  left: 1113px;
-  transition: all 0.33s;
-}
-
-.header-menu
-  a:nth-of-type(1)[class*='router-link-exact-active']
-  + a:nth-of-type(2):hover
-  ~ .link-bar {
-  width: 260px !important;
-  left: 668px;
-  transition: all 0.33s;
-  background-color: red !important;
-}
-
-.header-menu
-  a:nth-of-type(2)[class*='router-link-exact-active']
-  + a:nth-of-type(3):hover
-  ~ .link-bar {
-  width: 242px !important;
-  left: 819px;
-  transition: all 0.33s;
-  background-color: red !important;
-}
-
-.header-menu
-  a:nth-of-type(3)[class*='router-link-exact-active']
-  + a:nth-of-type(4):hover
-  ~ .link-bar {
-  width: 270px !important;
-  left: 977px;
-  transition: all 0.33s;
-  background-color: red !important;
-}
-
-.header-menu
-  a:nth-of-type(2)[class*='router-link-exact-active']
-  + .header-menu
-  a:nth-of-type(1):hover
-  ~ .link-bar {
-  width: 260px !important;
-  left: 668px;
-  transition: all 0.33s;
-  background-color: blue !important;
 }
 
 .header-menu a:last-of-type {

@@ -2,10 +2,10 @@
   <div class="side-bar">
     <div class="side-bar-menu">
       <ul>
-        <li v-for="button in SideBarInfo" :key="button.title">
+        <li v-for="(button, index) in SideBarInfo" :key="index">
           <span
-            :class="{ SideBarActive: button.isActive }"
-            @click="select(button, button.id - 1)"
+            :class="{ SideBarActive: SideBarMenuActiveIndex == index }"
+            @click="select(index)"
             >{{ button.title }}</span
           >
         </li>
@@ -15,24 +15,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['SideBarInfo', 'currentIndexButton']),
+    ...mapGetters(['SideBarInfo', 'SideBarMenuActiveIndex']),
   },
   methods: {
-    ...mapMutations(['setActiveButton', 'getLinesCount']),
-    select(payload, index) {
-      if (this.SideBarInfo[index].isActive == false) {
-        this.setActiveButton(index);
-        this.$emit('move', false);
-        setTimeout(() => {
-          this.$emit('move', true);
-          console.log('move');
-        }, 1);
-      }
+    ...mapMutations(['setActiveSideBarButton']),
+    select(index) {
+      this.setActiveSideBarButton(index);
+      this.$emit('move', false);
+      setTimeout(() => {
+        this.$emit('move', true);
+      }, 1);
     },
   },
 };

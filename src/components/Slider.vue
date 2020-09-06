@@ -36,11 +36,13 @@ import VClamp from 'vue-clamp';
 
 export default {
   components: { VClamp },
+  props: {
+    move: Boolean,
+  },
   created() {
     this.Slides.push(this.SideBarInfo[0]);
   },
   mounted() {},
-  props: ['move'],
   computed: {
     ...mapGetters(['SideBarLength', 'SideBarInfo', 'Slides', 'Move']),
   },

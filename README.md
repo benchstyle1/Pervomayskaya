@@ -14,6 +14,5 @@ npm run serve
 ```
 npm run build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Основная пробле с которой я столкнулся при выполнении задания - анимация навигационного меню в заголовке.
+### Очень много времени потратил реализуя на чистом CSS, в итоге пришлось пойти по другому пути.

@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <SideBar v-on:move="moveSlide($event)"/>
+    <SideBar @move="move = $event"/>
     <Slider :move="move"/>
   </div>
 </template>
@@ -18,11 +18,6 @@ export default {
       move: false,
     };
   },
-  methods: {
-    moveSlide(event) {
-      return this.move = event;
-    }
-  }
 };
 </script>
 

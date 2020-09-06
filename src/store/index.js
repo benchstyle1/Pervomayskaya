@@ -1,73 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import SideBar from '@/fixture/SideBar';
+import HeaderMenu from '@/fixture/HeaderMenu'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    SideBar: [
-      {
-        id: 1,
-        title: 'Архитектура',
-        text:
-          'Оригинальная архитектура жилого комплекса бизнес-класса «Первомайская» формирует современный стиль жизни',
-        isActive: true,
-        isClamped: false,
-        img: require('@/assets/image/Архитектура.jpg'),
-      },
-      {
-        id: 2,
-        title: 'Благоустройство',
-        text:
-          'Запроектированные большие окна, которые пропускают много солнечного света, наполнят Ваши квартиры теплотой и уютом 123 21314 ljsd;fk jhfjs fkjsdkf kdjfs',
-        isActive: false,
-        isClamped: false,
-        img: require('@/assets/image/Благоустройство.jpg'),
-      },
-      {
-        id: 3,
-        title: 'Безопасность',
-        text:
-          'Современный двор европейского уровня — территория для детей, игр на свежем воздухе и вечерних',
-        isActive: false,
-        isClamped: false,
-        img: require('@/assets/image/Безопасность.jpg'),
-      },
-      {
-        id: 4,
-        title: 'Инженерия',
-        text:
-          'Оригинальная архитектура жилого комплекса бизнес-класса «Первомайская» формирует современный стиль жизни',
-        isActive: false,
-        isClamped: false,
-        img: require('@/assets/image/Инженерия.jpg'),
-      },
-      {
-        id: 5,
-        title: 'Инфраструктура',
-        text:
-          'Прекрасный вариант для тех, кто предпочитает жить в спокойном районе среди интеллигенции, но при этом чувствовать ритм мегаполиса',
-        isActive: false,
-        isClamped: false,
-        marginTop: 0,
-        img: require('@/assets/image/Инфраструктура.jpg'),
-      },
-      {
-        id: 6,
-        title: 'Транспортная доступность',
-        text: 'Жилой комплекс «Первомайская» расположен в престижном Академическом районе',
-        linesCount: 0,
-        isActive: false,
-        isClamped: false,
-        img: require('@/assets/image/Транспортная доступность.jpg'),
-      },
-    ],
-    HeaderMenu: [
-      { title: 'о комплексе', to: '/' },
-      { title: 'особенности', to: '/features' },
-      { title: 'пентхаусы', to: '/penthouses' },
-      { title: 'выбрать квартиру', to: '/reserve' },
-    ],
+    SideBar,
+    HeaderMenu,
+    ActiveIndex: {
+      SideBar: 0,
+      HeaderMenu: 0,
+    },
     Slides: [],
     move: {
       High: false,
@@ -75,18 +20,18 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setActiveButton(state, index) {
-      state.SideBar.forEach(element => {
-        element.isActive = false;
-      });
-      state.SideBar[index].isActive = true;
-      this.commit('setSlides', index);
+    setActiveSideBarButton(state, index) {
+      state.ActiveIndex.SideBar = index;
+      this.commit('setSlides', state.ActiveIndex.SideBar);
+    },
+    setActiveHeaderButton(state, index) {
+      state.ActiveIndex.HeaderMenu = index;
     },
     setSlides(state, index) {
       state.move.High = false;
       state.move.High = false;
 
-      if (state.Slides.length > 1) {
+      if (state.Slides.length === 2) {
         state.Slides.shift();
       }
 
@@ -99,11 +44,10 @@ export default new Vuex.Store({
       } else {
         state.move.Down = true;
       }
-      console.log(state.Slides);
     },
     setClamped(state, payload) {
-      state.SideBar[payload.index].isClamped = payload.value
-    }
+      state.SideBar[payload.index].isClamped = payload.value;
+    },
   },
   actions: {},
   modules: {},
@@ -116,6 +60,12 @@ export default new Vuex.Store({
     },
     HeaderMenuInfo: state => {
       return state.HeaderMenu;
+    },
+    HeaderMenuActiveIndex: state => {
+      return state.ActiveIndex.HeaderMenu;
+    },
+    SideBarMenuActiveIndex: state => {
+      return state.ActiveIndex.SideBar;
     },
     buttonIndex: state => {
       return state.buttonIndex;
